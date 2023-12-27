@@ -28,7 +28,7 @@ export class UserController {
   // }
 
   @Get()
-  findAll(@Query() query) {
+  myfindAll(@Query() query) {
     console.log(query);
     return {
       code: 200,
