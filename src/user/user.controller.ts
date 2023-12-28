@@ -13,6 +13,7 @@ import {
   Res,
   Req,
   Session,
+  Inject,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,17 +22,20 @@ import * as svgCaptcha from 'svg-captcha';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    @Inject('Config') private readonly base: any,
+  ) {}
 
   // @Post()
   // create(@Body() createUserDto: CreateUserDto) {
   //   return this.userService.create(createUserDto);
   // }
 
-  // @Get()
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.base;
+  }
 
   // @Get()
   // myfindAll(@Query() query) {
