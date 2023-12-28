@@ -3,11 +3,12 @@ import { AppModule } from './app.module';
 import * as session from 'express-session';
 import { NextFunction, Request, Response } from 'express';
 import * as cors from 'cors';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 const whileList = ['/user'];
 
 function MiddlewareAll(req: Request, res: Response, next: NextFunction) {
-  console.log(req.originalUrl);
   if (whileList.includes(req.originalUrl)) {
     next();
   } else {
@@ -16,7 +17,8 @@ function MiddlewareAll(req: Request, res: Response, next: NextFunction) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(join(__dirname, 'images'));
   // app.use(cors());
   app.use(
     session({
@@ -26,7 +28,7 @@ async function bootstrap() {
       cookie: { maxAge: 99999 },
     }),
   );
-  app.use(MiddlewareAll);
+  // app.use(MiddlewareAll);
   await app.listen(3000);
 }
 bootstrap();

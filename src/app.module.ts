@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from './config/config.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
-  imports: [UserModule, ConfigModule.forRoot({ path: '/zifeng' })],
+  imports: [UserModule, ConfigModule.forRoot({ path: '/zifeng' }), UploadModule],
   controllers: [AppController],
   providers: [AppService],
 })
