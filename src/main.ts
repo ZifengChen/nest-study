@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { Response } from './common/response';
+import { HttpFilter } from './common/filter';
 
 const whileList = ['/user'];
 
@@ -30,6 +31,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new Response());
+  app.useGlobalFilters(new HttpFilter());
   // app.use(MiddlewareAll);
   await app.listen(3000);
 }
