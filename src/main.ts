@@ -1,20 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request } from 'express';
 import * as cors from 'cors';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { Response } from './common/response';
 
 const whileList = ['/user'];
 
-function MiddlewareAll(req: Request, res: Response, next: NextFunction) {
-  if (whileList.includes(req.originalUrl)) {
-    next();
-  } else {
-    res.send('小黑子漏出鸡脚了吧');
-  }
-}
+// function MiddlewareAll(req: Request, res: Response, next: NextFunction) {
+//   if (whileList.includes(req.originalUrl)) {
+//     next();
+//   } else {
+//     res.send('小黑子漏出鸡脚了吧');
+//   }
+// }
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -28,6 +29,7 @@ async function bootstrap() {
       cookie: { maxAge: 99999 },
     }),
   );
+  app.useGlobalInterceptors(new Response());
   // app.use(MiddlewareAll);
   await app.listen(3000);
 }
