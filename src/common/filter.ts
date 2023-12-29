@@ -13,10 +13,11 @@ export class HttpFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
+    console.log(exception);
     response.status(status).json({
       success: false,
       time: new Date(),
-      data: exception.message,
+      data: exception,
       status,
       path: request.url,
     });
