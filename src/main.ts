@@ -8,6 +8,7 @@ import { join } from 'path';
 import { Response } from './common/response';
 import { HttpFilter } from './common/filter';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 const whileList = ['/user'];
 
@@ -34,6 +35,14 @@ async function bootstrap() {
   app.useGlobalInterceptors(new Response());
   app.useGlobalFilters(new HttpFilter());
   app.useGlobalPipes(new ValidationPipe());
+  const options = new DocumentBuilder()
+    .addBearerAuth()
+    .setTitle('我的飞机')
+    .setDescription('很大')
+    .setVersion('1')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('/api-docs', app, document);
   // app.use(MiddlewareAll);
   await app.listen(3000);
 }
