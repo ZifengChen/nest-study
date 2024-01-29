@@ -23,18 +23,18 @@ const whileList = ['/user'];
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, 'images'));
-  // app.use(cors());
-  app.use(
-    session({
-      secret: 'zifeng',
-      rolling: true,
-      name: 'zifeng.sid',
-      cookie: { maxAge: 99999 },
-    }),
-  );
-  app.useGlobalInterceptors(new Response());
-  app.useGlobalFilters(new HttpFilter());
-  app.useGlobalPipes(new ValidationPipe());
+  app.use(cors());
+  // app.use(
+  //   session({
+  //     secret: 'zifeng',
+  //     rolling: true,
+  //     name: 'zifeng.sid',
+  //     cookie: { maxAge: 99999 },
+  //   }),
+  // );
+  // app.useGlobalInterceptors(new Response());
+  // app.useGlobalFilters(new HttpFilter());
+  // app.useGlobalPipes(new ValidationPipe());
   const options = new DocumentBuilder()
     .addBearerAuth()
     .setTitle('我的飞机')

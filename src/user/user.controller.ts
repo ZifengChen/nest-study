@@ -27,14 +27,19 @@ export class UserController {
     @Inject('Config') private readonly base: any,
   ) {}
 
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.userService.create(createUserDto);
-  // }
+  @Post('/add/tags')
+  addTags(@Body() params: { tags: string[]; userId: number }) {
+    return this.userService.addTags(params);
+  }
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
 
   @Get()
-  findAll() {
-    return this.base;
+  findAll(@Query() query: { keyWord: string; page: number; pageSize: number }) {
+    return this.userService.findAll(query);
   }
 
   // @Get()
@@ -45,13 +50,13 @@ export class UserController {
   //   };
   // }
 
-  @Post()
-  create(@Body('age') body) {
-    return {
-      code: 200,
-      message: body.name,
-    };
-  }
+  // @Post()
+  // create(@Body('age') body) {
+  //   return {
+  //     code: 200,
+  //     message: body.name,
+  //   };
+  // }
 
   // @Get(':id')
   // findId(@Param('id') id, @Headers() headers) {
@@ -65,37 +70,37 @@ export class UserController {
   //   return this.userService.findOne(+id);
   // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
-
-  @Get('code')
-  createCode(@Request() req, @Res() res, @Session() session) {
-    const captcha = this.userService.createCaptcha();
-    req.session.code = captcha.text;
-    res.type('image/svg+xml');
-    res.send(captcha.data);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
   }
 
-  @Post('create')
-  createUser(@Req() req, @Body() body) {
-    console.log(req.session.code, body);
-    if (
-      req.session.code.toLocaleLowerCase() === body?.code?.toLocaleLowerCase()
-    ) {
-      return {
-        message: '验证码正确',
-      };
-    } else {
-      return {
-        message: '验证码错误',
-      };
-    }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
   }
+
+  // @Get('code')
+  // createCode(@Request() req, @Res() res, @Session() session) {
+  //   const captcha = this.userService.createCaptcha();
+  //   req.session.code = captcha.text;
+  //   res.type('image/svg+xml');
+  //   res.send(captcha.data);
+  // }
+
+  // @Post('create')
+  // createUser(@Req() req, @Body() body) {
+  //   console.log(req.session.code, body);
+  //   if (
+  //     req.session.code.toLocaleLowerCase() === body?.code?.toLocaleLowerCase()
+  //   ) {
+  //     return {
+  //       message: '验证码正确',
+  //     };
+  //   } else {
+  //     return {
+  //       message: '验证码错误',
+  //     };
+  //   }
+  // }
 }

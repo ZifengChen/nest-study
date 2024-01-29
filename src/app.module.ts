@@ -10,6 +10,7 @@ import { GuardModule } from './guard/guard.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { password } from './config/password';
 import { TestModule } from './test/test.module';
+import { ManagerModule } from './manager/manager.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { TestModule } from './test/test.module';
       host: 'localhost', //host
       port: 3306,
       database: 'db',
-      entities: [__dirname, '/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       retryDelay: 500, //重试连接数据库间隔
       retryAttempts: 10, //重试连接数据库的次数
@@ -33,6 +34,7 @@ import { TestModule } from './test/test.module';
     SpiderModule,
     GuardModule,
     TestModule,
+    ManagerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
